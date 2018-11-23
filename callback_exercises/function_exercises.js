@@ -58,8 +58,7 @@ class Clock {
 // const clock = new Clock();
 
 // Let's write a function that will read several numbers, one after another, and sum up the total. After each number, let's print out the partial sums along the way, and pass the total sum to a callback when done.
-//
-// First off, use readline.createInterface to create a global variable, reader. Use process.stdin/process.stdout like I do in my examples. Make sure to only use one instance of a reader and only close it once.
+
 
 const readline = require('readline');
 const reader = readline.createInterface({
@@ -82,19 +81,50 @@ function addNumbers(sum, numsLeft, completionCallback) {
   }
 }
 
-addNumbers(0, 3, sum => console.log(`Total Sum: ${sum}`));
-
-// If numsLeft > 0, then:
-// Prompt the user for a number (use reader).
-// Pass a callback that:
-// Uses parseInt to parse the input.
-// Increment the sum and console.log it.
-// Recursively calls addNumbers again, passing in:
-// the increased sum,
-// the decreased numsLeft,
-// and the same completionCallback.
-// If numsLeft === 0, call completionCallback(sum) so that the total sum can be used.
-// To test, try out:
-//
 // addNumbers(0, 3, sum => console.log(`Total Sum: ${sum}`));
-// This should prompt for three numbers, printing out the partial sums and then the final, total sum.
+
+function absurdBubbleSort(arr, sortCompletionCallback) {
+
+  function outerBubbleSortLoop(madeAnySwaps) {
+    if (madeAnySwaps === true) {
+      innerBubbleSortLoop(arr, 0, false, outerBubbleSortLoop);
+    } else {
+      sortCompletionCallback(arr);
+    }
+  }
+  outerBubbleSortLoop(true);
+}
+
+function askIfGreaterThan(el1, el2, callback) {
+  reader.question(`Is ${el1} greater than ${el2}?`, function (res) {
+    if (res === 'yes') {
+      callback(true);
+    } else {
+      callback(false);
+    }
+  });
+}
+
+function innerBubbleSortLoop(arr, i, madeAnySwaps, outerBubbleSortLoop) {
+  if (i < arr.length - 1) {
+    askIfGreaterThan(arr[i], arr[i + 1], function (isGreaterThan) {
+      if (isGreaterThan) {
+        let val = arr[i];
+        arr[i] = arr[i + 1];
+        arr[i + 1] = val;
+        madeAnySwaps = true;
+        innerBubbleSortLoop(arr, i + 1, madeAnySwaps, outerBubbleSortLoop);
+      } else {
+        innerBubbleSortLoop(arr, i + 1, madeAnySwaps, outerBubbleSortLoop);
+      }
+    });
+  } else if (i === (arr.length - 1)) {
+    console.log(arr);
+    outerBubbleSortLoop(madeAnySwaps);
+  }
+}
+
+// absurdBubbleSort([3, 2, 5, 6, 1, 4], function (arr) {
+//   console.log("Sorted array: " + JSON.stringify(arr));
+//   reader.close();
+// });
