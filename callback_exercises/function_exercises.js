@@ -124,7 +124,12 @@ function innerBubbleSortLoop(arr, i, madeAnySwaps, outerBubbleSortLoop) {
   }
 }
 
-// absurdBubbleSort([3, 2, 5, 6, 1, 4], function (arr) {
-//   console.log("Sorted array: " + JSON.stringify(arr));
-//   reader.close();
-// });
+absurdBubbleSort([2,3], function (arr) {
+  console.log("Sorted array: " + JSON.stringify(arr));
+  reader.close();
+});
+
+absurdBubbleSort([3, 2, 5, 6, 1, 4], function (arr) {
+  console.log("Sorted array: " + JSON.stringify(arr));
+  reader.close();
+});
